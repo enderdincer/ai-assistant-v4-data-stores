@@ -1,4 +1,4 @@
-name: MQTT Deploy
+name: Deploy
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push MQTT image
         uses: docker/build-push-action@v5
         with:
           context: ./mqtt
@@ -45,3 +45,12 @@ jobs:
           push: true
           tags: |
             ${{ vars.IMAGE_REGISTRY }}/${{ vars.IMAGE_REGISTRY_OWNER }}/ai-assistant-mqtt:latest${{ steps.semantic_release.outputs.new_release_version && format(',{0}/{1}/ai-assistant-mqtt:{2}', vars.IMAGE_REGISTRY, vars.IMAGE_REGISTRY_OWNER, steps.semantic_release.outputs.new_release_version) || '' }}
+
+      - name: Build and push Qdrant image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./qdrant
+          file: ./qdrant/Dockerfile
+          push: true
+          tags: |
+            ${{ vars.IMAGE_REGISTRY }}/${{ vars.IMAGE_REGISTRY_OWNER }}/ai-assistant-qdrant:latest${{ steps.semantic_release.outputs.new_release_version && format(',{0}/{1}/ai-assistant-qdrant:{2}', vars.IMAGE_REGISTRY, vars.IMAGE_REGISTRY_OWNER, steps.semantic_release.outputs.new_release_version) || '' }}
