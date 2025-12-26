@@ -1,0 +1,20 @@
+# Qdrant configuration file
+
+# Service configuration
+service:
+  # HTTP API port
+  http_port: 6333
+  # gRPC port
+  grpc_port: 6334
+  # Enable CORS
+  enable_cors: true
+
+# Storage configuration
+storage:
+  # Storage path for data
+  storage_path: /qdrant/storage
+  # Snapshots path
+  snapshots_path: /qdrant/snapshots
+
+# Logging configuration
+log_level: INFO
